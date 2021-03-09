@@ -1,6 +1,8 @@
 package com.saltlux.helloweb.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +18,9 @@ public class HelloServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8");//한글로 하면 오류가 생겨서 응답 헤더를 추가
 		
-		//PrintWriter pw =;
-		//
-		response.getWriter().print("<h1>안녕 세상</h1>");
+		PrintWriter pw = response.getWriter();
+		pw.print("<h1>안녕 세상</h1>");
+		//response.getWriter().print("<h1>안녕 세상</h1>");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
