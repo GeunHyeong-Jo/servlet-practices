@@ -1,0 +1,40 @@
+helloweb
+   |------ [/src]
+   |         |--- [/main]
+   |         |       |----- [/java]
+   |         |       |         |--- /com
+   |         |       |         	      |--- /bitacademy
+   |         |       |         	               |--- /helloweb
+   |         |       |         	                        |--- /controller
+   |         |       |                                           |---- HelloServlet.java
+   |         |       |----- [/resource]
+   |         |       |            |--- /config
+   |         |       |                    |--- db.properties
+   |         |       |----- [/webapp]
+   |         |       |          |----- index.jsp
+   |         |       |          |----- /WEB-INF
+   |         |       |                    |----- /lib
+   |         |       |                    |        |---- mysql-jdbc-connector.jar
+   |         |       |                    |----- /classes
+   |         |       |                             |--- /com
+   |         |       |         	                   |      |--- /bitacademy
+   |         |       |         	                   |                |--- /helloweb
+   |         |       |         	                   |                         |--- /controller
+   |         |       |                             |                                  |---- HelloServlet.class
+   |         |       |                             |--- /config
+   |         |       |                                     |--- db.properties
+   |         |--- [/test]
+   |         |       |----- [/java]
+   |         |       |         |--- /com
+   |         |       |         	      |--- /bitacademy
+   |         |       |         	               |--- /helloweb
+   |         |       |         	                        |--- /controller
+   |         |       |         	                                   |--- /test
+   |         |       |                                                    |---- HelloServletTest.java
+   |         |       |----- [/resource] 
+   
+   
+   소스 = package 
+         + code(*.java)
+         + resources(*.xml, *.properties, *.yml)
+   

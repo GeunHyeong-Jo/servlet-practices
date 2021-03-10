@@ -1,0 +1,37 @@
+http://bit.ly/3c9mNoj
+
+==============================
+
+01: JSP(C, V)로만 작성된 버젼(Model+1)           
+02: Servlet(C) + JSP(V)로 작성된 버젼(Model + 2, MVC)
+
+============= servlet-practices =================
+helloweb
+jstlel
+emaillist01(Model1)
+guestbook01(Model1)
+emaillist02(Model2)
+guestbook02(Model2)
+
+
+============= mysite =================
+mysite02(Model2, 게시판 추가)
+
+
+mysite03(SpringMVC, XML Configuration)
+mysite04(SpringMVC, Java Configuration)
+mysite05(SpringMVC, Java Configuration)
+mysite06(Spring Boot)
+
+
+
+
+
+
+
+
+
+
+
+
+
