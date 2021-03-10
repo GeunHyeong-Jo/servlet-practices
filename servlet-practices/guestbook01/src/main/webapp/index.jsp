@@ -35,12 +35,15 @@ List<GuestbookVo> list = dao.findAll();
 	<form action="/guestbook01/deleteform.jsp" method="post">
 		<table width=510 border=1>
 			<%
+			int i=list.size()+1;
 			for (GuestbookVo vo : list) {
+				i--;
+				
 			%>
 			<tr>
 				<td>
 					<input type='hidden' name="no" value="<%=vo.getNo()%>">
-					<%=vo.getNo()%>
+					<%=i%>
 				</td>
 				<td><%=vo.getName()%></td>
 				<td><%=vo.getReg_date()%></td>
