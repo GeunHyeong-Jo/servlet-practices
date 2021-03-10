@@ -1,8 +1,8 @@
 <%@page import="com.saltlux.emaillist.vo.EmaillistVo"%>
 <%@page import="java.util.List"%>
 <%@page import="com.saltlux.emaillist.dao.EmaillistDao"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%
 EmaillistDao dao = new EmaillistDao();
@@ -16,9 +16,9 @@ List<EmaillistVo> list = dao.findAll();
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>¸ŞÀÏ ¸®½ºÆ®</h1>
-	<p>ÀÔ·ÂÇÑ Á¤º¸ ³»¿ªÀÔ´Ï´Ù.</p>
-	<!-- ¸ŞÀÏÁ¤º¸ ¸®½ºÆ® -->
+	<h1>ë©”ì¼ ë¦¬ìŠ¤íŠ¸</h1>
+	<p>ì…ë ¥í•œ ì •ë³´ ë‚´ì—­ì…ë‹ˆë‹¤.</p>
+	<!-- ë©”ì¼ì •ë³´ ë¦¬ìŠ¤íŠ¸ -->
 
 	<%
 		for(EmaillistVo vo : list){
@@ -52,7 +52,7 @@ List<EmaillistVo> list = dao.findAll();
 
 
 	<p>
-		<a href="/emaillist01/form.jsp">Ãß°¡¸ŞÀÏ µî·Ï</a>
+		<a href="/emaillist01/form.jsp">ì¶”ê°€ë©”ì¼ ë“±ë¡</a>
 	</p>
 	<br>
 </body>

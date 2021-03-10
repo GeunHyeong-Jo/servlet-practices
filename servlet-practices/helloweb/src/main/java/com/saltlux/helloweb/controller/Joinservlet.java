@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 public class Joinservlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		// POST 방식으로 넘어오는 데이터의 엔코딩
 		request.setCharacterEncoding("utf-8");
 

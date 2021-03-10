@@ -8,7 +8,7 @@ import com.saltlux.emaillist.vo.EmaillistVo;
 public class EmaillistDaoTest {
 	public static void main(String[] args) {
 
-		//insert test 입력태스트 완료
+		//insert test 입력테스트 완료
 		//testInsert();
 		
 		// findAll test
