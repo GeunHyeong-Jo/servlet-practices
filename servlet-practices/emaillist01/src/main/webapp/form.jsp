@@ -1,24 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>¸ŞÀÏ ¸®½ºÆ® °¡ÀÔ</h1>
+	<h1>ë©”ì¼ ë¦¬ìŠ¤íŠ¸ ê°€ì…</h1>
 	<p>
-		¸ŞÀÏ ¸®½ºÆ®¿¡ °¡ÀÔÇÏ·Á¸é,<br>
-		¾Æ·¡ Ç×¸ñÀ» ±âÀÔÇÏ°í submit ¹öÆ°À» Å¬¸¯ÇÏ¼¼¿ä.
+		ë©”ì¼ ë¦¬ìŠ¤íŠ¸ì— ê°€ì…í•˜ë ¤ë©´,<br>
+		ì•„ë˜ í•­ëª©ì„ ê¸°ì…í•˜ê³  submit ë²„íŠ¼ì„ í´ë¦­í•˜ì„¸ìš”.
 	</p>
 	<form action="/emaillist01/add.jsp" method="post">
 	    First name: <input type="text" name="firstName" value="" ><br>
 	    Last name: <input type="text" name="lastName" value=""><br>
 	    Email address: <input type="text" name="email" value=""><br>
-	    <input type="submit" value="µî·Ï">
+	    <input type="submit" value="ë“±ë¡">
 	</form>
 	<br>
 	<p>
-	<a href="/emaillist01">¸®½ºÆ® ¹Ù·Î°¡±â</a>
+	<a href="/emaillist01">ë¦¬ìŠ¤íŠ¸ ë°”ë¡œê°€ê¸°</a>
 	</p>
 </body>
 </html>

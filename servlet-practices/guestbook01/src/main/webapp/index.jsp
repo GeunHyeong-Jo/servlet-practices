@@ -50,7 +50,7 @@ List<GuestbookVo> list = dao.findAll();
 				<td><input type="submit" value="삭제"></td>
 			</tr>
 			<tr>
-				<td colspan=4><%=vo.getContents()%></td>
+				<td colspan=4><%=vo.getContents().replace("\r\n", "<br>")%></td>
 			</tr>
 			<%
 			}

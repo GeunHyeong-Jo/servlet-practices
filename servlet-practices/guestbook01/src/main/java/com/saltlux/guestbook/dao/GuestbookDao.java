@@ -26,7 +26,7 @@ public class GuestbookDao {
 			// 4. 바인딩
 			pstmt.setLong(1, vo.getNo());
 			pstmt.setString(2, vo.getPassword());
-			
+
 			// 5. SQL문 실행
 			int count = pstmt.executeUpdate();
 
@@ -118,11 +118,11 @@ public class GuestbookDao {
 			while (rs.next()) {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
-				String reg_date=rs.getString(3);
-				//String reg_date = rs.getTimestamp(3).toString();
+				String reg_date = rs.getString(3);
+				// String reg_date = rs.getTimestamp(3).toString();
 				String contents = rs.getString(4);
 				GuestbookVo vo = new GuestbookVo();
-				
+
 				vo.setNo(no);
 				vo.setName(name);
 				vo.setReg_date(reg_date);
