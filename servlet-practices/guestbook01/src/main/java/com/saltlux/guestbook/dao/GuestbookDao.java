@@ -107,7 +107,7 @@ public class GuestbookDao {
 			conn = getConnection();
 
 			// 3. SQL 준비
-			String sql = "select no, name, reg_date, contents from guestbook order by reg_date desc";
+			String sql = "select no, name, date_format(reg_date, '%Y-%m-%d %H:%i:%s'), contents from guestbook order by reg_date desc";
 			pstmt = conn.prepareStatement(sql);
 			// 4. 바인딩
 
@@ -118,7 +118,8 @@ public class GuestbookDao {
 			while (rs.next()) {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
-				String reg_date = rs.getTimestamp(3).toString();
+				String reg_date=rs.getString(3);
+				//String reg_date = rs.getTimestamp(3).toString();
 				String contents = rs.getString(4);
 				GuestbookVo vo = new GuestbookVo();
 				
