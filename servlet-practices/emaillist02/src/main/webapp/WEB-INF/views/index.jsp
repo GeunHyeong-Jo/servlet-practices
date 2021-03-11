@@ -4,9 +4,8 @@
 	pageEncoding="UTF-8"%>
 <%
 	//downcasting
+
 	List<EmaillistVo> list = (List<EmaillistVo>)request.getAttribute("list");
-	
-	
 %>
 <html>
 <head>
@@ -40,8 +39,6 @@
 	<%
 		}
 	%>
-
-
 
 	<p>
 		<a href="<%= request.getContextPath() %>/el?a=form">추가메일 등록</a>

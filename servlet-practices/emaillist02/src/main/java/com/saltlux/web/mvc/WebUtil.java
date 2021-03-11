@@ -11,8 +11,14 @@ public class WebUtil {
 
 	public static void forward(String path, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/index.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(path);
 		rd.forward(request, response);// 연결
+	}
+	
+	public static void redirect(String url, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+		
+		
+		response.sendRedirect(url);
 	}
 
 }
