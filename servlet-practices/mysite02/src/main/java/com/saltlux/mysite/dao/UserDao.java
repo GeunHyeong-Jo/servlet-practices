@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.mysql.cj.xdevapi.PreparableStatement;
 import com.saltlux.mysite.vo.UserVo;
 
 public class UserDao {

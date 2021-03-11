@@ -16,12 +16,12 @@ public class GuestbookServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setCharacterEncoding("utf-8");/// 무조건 맨 앞에 해야함!!!!!!!
+		request.setCharacterEncoding("utf-8");
 
 		String action = request.getParameter("a");
 
 		if ("deleteform".equals(action)) {
-
+			WebUtil.forward("/WEB-INF/views/guestbook/deleteform.jsp", request, response);
 		} else if ("add".equals(action)) {
 			String name = request.getParameter("name");
 			String password = request.getParameter("password");
@@ -34,7 +34,16 @@ public class GuestbookServlet extends HttpServlet {
 
 			new GuestbookDao().insert(vo);
 			WebUtil.redirect(request.getContextPath() +"/guestbook", request, response);
-		} else {
+		} else if("delete".equals(action)){
+			String no = request.getParameter("no");
+			String password = request.getParameter("password");
+			GuestbookVo vo = new GuestbookVo();
+			vo.setNo(Long.parseLong(no));
+			vo.setPassword(password);
+			new GuestbookDao().delete(vo);
+
+			WebUtil.redirect(request.getContextPath() +"/guestbook", request, response);
+		}else {
 			WebUtil.forward("/WEB-INF/views/guestbook/list.jsp", request, response);
 		}
 
