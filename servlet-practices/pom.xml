@@ -13,6 +13,7 @@
 		<project.reporting.ouputEncoding>UTF-8</project.reporting.ouputEncoding>
 	</properties>
 	<dependencies>
+		<!-- Servlet -->
 	</dependencies>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -34,5 +35,6 @@
 		<module>guestbook01</module>
 		<module>emaillist02</module>
 		<module>guestbook02</module>
+		<module>mysite02</module>
 	</modules>
 </project>
