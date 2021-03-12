@@ -1,6 +1,9 @@
 package com.saltlux.mysite.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +18,8 @@ public class GuestbookServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		request.setCharacterEncoding("utf-8");
-
 		String action = request.getParameter("a");
-
 		if ("deleteform".equals(action)) {
 			WebUtil.forward("/WEB-INF/views/guestbook/deleteform.jsp", request, response);
 		} else if ("add".equals(action)) {
@@ -44,6 +44,13 @@ public class GuestbookServlet extends HttpServlet {
 
 			WebUtil.redirect(request.getContextPath() +"/guestbook", request, response);
 		}else {
+			//TODO 여기에 findall 넣어서 넘겨줘야함
+			List<GuestbookVo> list= new ArrayList<>();
+			
+			
+			list = (new GuestbookDao().findAll());
+			request.setAttribute("list", list);
+			
 			WebUtil.forward("/WEB-INF/views/guestbook/list.jsp", request, response);
 		}
 
