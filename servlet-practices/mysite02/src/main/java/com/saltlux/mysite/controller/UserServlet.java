@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.saltlux.mysite.dao.UserDao;
 import com.saltlux.mysite.vo.UserVo;
@@ -26,29 +27,41 @@ public class UserServlet extends HttpServlet {
 			WebUtil.forward("/WEB-INF/views/user/joinsuccess.jsp", request, response);
 		} else if ("loginform".equals(action)) {
 			WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
+		} else if ("logout".equals(action)) {
+			HttpSession session = request.getSession();
+
+			// 로그아웃 처리
+			if (session != null && session.getAttribute("authUser") != null) {
+				session.removeAttribute("authUser");
+				session.invalidate();
+			}
+
+			WebUtil.redirect(request.getContextPath(), request, response);
+
 		} else if ("login".equals(action)) {
-			String email= request.getParameter("email");
+			String email = request.getParameter("email");
 			String password = request.getParameter("password");
-			
-			UserVo vo= new UserVo();
+
+			UserVo vo = new UserVo();
 			vo.setEmail(email);
 			vo.setPassword(password);
-			
+
 			UserVo authUser = new UserDao().findByEmailAndPassword(vo);
-			if(authUser == null) {
+			if (authUser == null) {
 				request.setAttribute("authResult", "fail");
 				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
 				return; // 여기서 끝내야 한다 아님 else문을 비워서 만들어도 괜찮은데 권장되지 않는다.
 			}
-			
-			
-			
+
 			// 인증 처리
-			
-			
-			
-			
-			
+
+			HttpSession session = request.getSession(true);// session manager에게 있으면 있는거 없으면 생성 요청
+			session.setAttribute("authUser", authUser);
+
+			// 응답
+
+			WebUtil.redirect(request.getContextPath(), request, response);
+
 		} else if ("join".equals(action)) {
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
