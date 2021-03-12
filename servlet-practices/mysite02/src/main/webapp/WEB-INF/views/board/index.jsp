@@ -29,7 +29,7 @@
 					</tr>				
 					<tr>
 						<td>3</td>
-						<td><a href="">세 번째 글입니다.</a></td>
+						<td><a href="" style="text-align:left; padding-left:${(vo.depth)*20}px">세 번째 글입니다.</a></td><!--vo에서 가져온다 -->
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-11 12:04:20</td>
@@ -37,7 +37,7 @@
 					</tr>
 					<tr>
 						<td>2</td>
-						<td><a href="">두 번째 글입니다.</a></td>
+						<td><a href="" style="text-align:left; padding-left:${(vo.depth)*20}px"><img src="/mysite02/assets/images/reply.png">답글입니다.</a></td>
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-02 12:04:12</td>
@@ -45,13 +45,29 @@
 					</tr>
 					<tr>
 						<td>1</td>
-						<td><a href="">첫 번째 글입니다.</a></td>
+						<td><a href="" style="text-align:left; padding-left:${(vo.depth)*20}px">첫 번째 글입니다.</a></td>
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-09-25 07:24:32</td>
 						<td><a href="" class="del">삭제</a></td>
 					</tr>
 				</table>
+				
+				<!-- pager 추가 -->
+				<div class="pager">
+					<ul>
+						<li><a href="">◀</a></li>
+						<li><a href="/mysite02/board?p=1">1</a></li>
+						<li class="selected">2</li>
+						<li><a href="">3</a></li>
+						<li>4</li>
+						<li>5</li>
+						<li><a href="">▶</a></li>
+					</ul>
+				</div>					
+				<!-- pager 추가   선택된 부분에 "selected" 걸어주고, 존재하는 페이지에만 링크를 걸어준다-->
+				
+				
 				<div class="bottom">
 					<a href="" id="new-book">글쓰기</a>
 					<a href="" id="new-book">글수정</a>
