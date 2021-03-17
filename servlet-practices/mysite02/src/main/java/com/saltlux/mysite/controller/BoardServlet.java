@@ -19,37 +19,49 @@ public class BoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	// TODO 나중에 코드 줄일때 여기에 리스트 얻어서 넘기는 코드 옮기기
-	private static void getList() { ///
-//		List<BoardVo> list = new ArrayList<>();
-//		list = new BoardDao().findAll();
-//		request.setAttribute("list", list);
-//		
-//		if (session == null) {
-//			WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
-//			return;
-//		}
-//		UserVo authUser = (UserVo) session.getAttribute("authUser");
-//		if (authUser == null) {
-//			WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
-//			return;
-//		}
-	}
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("a");
 		HttpSession session = request.getSession();
 
-		if ("write".equals(action)) {
-
+		if ("writeform".equals(action)) {
 			WebUtil.forward("/WEB-INF/views/board/write.jsp", request, response);
+		} else if ("write".equals(action)) {
+			BoardDao boardDao= new BoardDao();
+			UserVo authUser = (UserVo) session.getAttribute("authUser");
+			
+			Long g_no= boardDao.getGno();
+			//여기에 파라미터로 받아와서 넣어준다
+			
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			BoardVo vo = new BoardVo();
+			
+			vo.setTitle(title);
+			vo.setAuthor(authUser.getName());
+			vo.setContent(content);
+			vo.setG_no(g_no);
+			vo.setO_no(1L);
+			vo.setDepth(0L);
+			vo.setUser_no(authUser.getNo());
+			
+			boardDao.insert(vo);
+			
+			List<BoardVo> list = new ArrayList<>();
+			list = new BoardDao().findAll();
+			request.setAttribute("list", list);
+			// board의 정보를 모두 넘겨주게 된다
+
+			WebUtil.redirect(request.getContextPath()+"/board", request, response);
 		} else if ("modify".equals(action)) {
 
 			WebUtil.forward("/WEB-INF/views/board/modify.jsp", request, response);
 
 		} else if ("delete".equals(action)) {
 			UserVo authUser = (UserVo) session.getAttribute("authUser");
-			
 			
 			Long delNo= Long.parseLong(request.getParameter("no"));
 			BoardDao boardDao= new BoardDao();
@@ -64,7 +76,9 @@ public class BoardServlet extends HttpServlet {
 			list = boardDao.findAll();
 			request.setAttribute("list", list);
 
-			WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
+			WebUtil.redirect(request.getContextPath()+"/board", request, response);
+			
+			
 		} else if ("view".equals(action)) {
 			Long no = Long.parseLong(request.getParameter("no"));
 			BoardVo vo = new BoardDao().findByNo(no);

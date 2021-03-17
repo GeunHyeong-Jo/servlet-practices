@@ -66,7 +66,7 @@
 
 
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath}/board?a=write" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath}/board?a=writeform" id="new-book">글쓰기</a>
 					<a href="${pageContext.request.contextPath}/board?a=modify" id="new-book">글수정</a>
 				</div>
 			</div>
