@@ -2,12 +2,16 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+
+<%
+	pageContext.setAttribute("newline", "\n");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>${board.title}</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="/assets/css/board.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/assets/css/board.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
@@ -20,23 +24,26 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>제목입니다.</td>
+						<td>${board.title}</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								내용 1입니다.<br>
-								내용 2입니다.<br>
-								내용 3입니다.
+								${fn:replace(board.content,newline,"<br>") }
 							</div>
 						</td>
 					</tr>
 				</table>
+			
 				<div class="bottom">
-					<a href="">글목록</a>
-					<a href="">글수정</a>
-					<a href="">답글</a><!-- 자신의 글이 아닐경우 글수정 없애고 답글 활성화 -->
+					
+					<a href="${pageContext.request.contextPath }/board">글목록</a>
+				
+					<a href="${pageContext.request.contextPath }/board?a=modify">글수정</a>
+				
+					<a href="${pageContext.request.contextPath }">답글</a><!-- 자신의 글이 아닐경우 글수정 없애고 답글 활성화 -->
+
 				</div>
 			</div>
 		</div>
