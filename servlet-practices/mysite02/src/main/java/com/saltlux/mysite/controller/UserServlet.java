@@ -39,11 +39,11 @@ public class UserServlet extends HttpServlet {
 			}
 
 			Long no = authUser.getNo();
-			// UserVo userVo = new UserDao().findByNo(no);
-			//TODO findByNo를 구현하기
-			UserVo userVo = new UserVo();
-
-			request.setAttribute("userVo", userVo);
+			
+			//TODO 여기에 회원정보를 업데이트하는 구문 추가
+			//UserVo userVo = (UserVo)new UserDao().findByNo(no);
+			
+			//request.setAttribute("userVo", userVo);  //jsp랑 연동해야함
 			WebUtil.forward("/WEB-INF/views/user/updateform.jsp", request, response);
 
 		} else if ("logout".equals(action)) {

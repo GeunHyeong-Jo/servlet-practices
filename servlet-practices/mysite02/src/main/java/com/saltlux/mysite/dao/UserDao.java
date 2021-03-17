@@ -117,8 +117,44 @@ public class UserDao {
 
 	}
 
-	public Object findByNo(Long no) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getEmailFindByNo(Long no) {  // 세션의 no를 받아 email을 반환
+		String email = null;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "SELECT email FROM user WHERE no=?";
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, no);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				email= rs.getString(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return email;
 	}
 }

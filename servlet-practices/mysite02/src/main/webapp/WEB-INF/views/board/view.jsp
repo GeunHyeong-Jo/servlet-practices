@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>mysite</title>
+<title>${board.title}</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="/assets/css/board.css" rel="stylesheet" type="text/css">
 </head>

@@ -38,26 +38,24 @@
 						</tr>
 					</table>
 				</form>
-				<ul>
-					<li><c:set var="count" value="${fn:length(list) }" /> <c:forEach
-							items="${list }" var="vo" varStatus="status">
+					<ul>
+						<li><c:set var="count" value="${fn:length(list) }" /> 
+							<c:forEach	items="${list }" var="vo" varStatus="status">
 
-							<table>
+								<table>
 
-								<tr>
-									<td>${count-status.index }</td>
-									<td>${vo.name }</td>
-									<td>${vo.reg_date }</td>
-									<td><a
+									<tr>
+										<td>${count-status.index }</td>
+										<td>${vo.name }</td>
+										<td>${vo.reg_date }</td>
+										<td><a
 										href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=${vo.no } ">삭제</a></td>
-								</tr>
-								<tr>
-									<td colspan=4>${fn:replace(vo.contents,newline,"<br>") }</td>
-								</tr>
-
-
-							</table>
-							<br>
+									</tr>
+									<tr>
+										<td colspan=4>${fn:replace(vo.contents,newline,"<br>") }</td>
+									</tr>
+								</table>
+								<br>
 						</c:forEach></li>
 				</ul>
 			</div>
