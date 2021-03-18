@@ -12,6 +12,48 @@ import com.saltlux.mysite.vo.BoardVo;
 
 public class BoardDao {
 
+	public boolean updateView(Long title_no){ //조회수를 증가
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean result=false;
+		
+		
+		// JDBC코드
+		try {
+			conn = getConnection();
+			// 3. SQL 준비
+			String sql = "update board SET views =views+1 WHERE NO=?";
+			pstmt = conn.prepareStatement(sql);
+			// 4. 바인딩
+			pstmt.setLong(1, title_no);
+			// 5. SQL문 실행
+			int count= pstmt.executeUpdate();
+			
+			result= count==1;
+		} catch (SQLException e) {
+			// 1. 사과
+			// 2. log
+			System.out.println("error: " + e);
+			// 3. 안전하게 종료
+		} finally {// 자원 정리
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 	public boolean delete(BoardVo vo) {// 게시글의 삭제
 		boolean result = false;
 		Connection conn = null;
@@ -99,6 +141,48 @@ public class BoardDao {
 		return result;
 	}
 
+	public boolean update(BoardVo vo) { // 글 수정
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			// 3. SQL 준비
+			String sql = "update board set title=?, content=? where no = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			// 4. 바인딩
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setLong(3, vo.getNo());
+
+			// 5. SQL문 실행
+			int count = pstmt.executeUpdate();
+
+			// 6. 결과
+			result = count == 1; // 아래 코드처럼 써도 되는데 이렇게 쓰는게 권장된다.
+//			if(count==1) {
+//				result=true;
+//			}
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		} finally {// 자원 정리
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 	public List<BoardVo> findAll(){ // 전체 리스트 출력을 위해서
 		List<BoardVo> list = new ArrayList<>();
 
@@ -111,7 +195,8 @@ public class BoardDao {
 			conn = getConnection();
 
 			// 3. SQL 준비
-			String sql = "select no,title, author,views, date_format(reg_date, '%Y-%m-%d %H:%i:%s'), content, g_no,o_no,depth, user_no from board";
+			String sql = "select no,title, author,views, date_format(reg_date, '%Y-%m-%d %H:%i:%s'), content, g_no,o_no,depth, user_no from board "
+					+ " order by g_no DESC, o_no ASC";
 			pstmt = conn.prepareStatement(sql);
 			// 4. 바인딩
 
@@ -204,7 +289,6 @@ public class BoardDao {
 				vo.setTitle(title);
 				vo.setAuthor(author);
 				vo.setViews(views);
-				vo.setViews(views);
 				vo.setReg_date(reg_date);
 				vo.setContent(contents);
 				vo.setG_no(g_no);
@@ -236,7 +320,7 @@ public class BoardDao {
 		return vo;
 	}
 
-	public Long getGno() { //제일 높은 g_no를 얻어온다 
+	public Long getMaxGno() { //제일 높은 g_no를 얻어온다 
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;

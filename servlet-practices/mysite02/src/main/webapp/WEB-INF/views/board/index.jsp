@@ -35,8 +35,13 @@
 
 						<tr>
 							<td>${count-status.index }</td>
-							<td>
-								<a href="${pageContext.request.contextPath }/board?a=view&no=${board.no }" style="text-align:left; padding-left:${(board.depth)*20}px">${board.title}</a>
+							<td style="text-align:left">
+							<c:choose>
+						  		<c:when test="${board.depth > 0 }">
+									 <img style="text-align:left; padding-left:${(board.depth)*20}px" src="${pageContext.request.contextPath}/assets/images/reply.png"/>
+								</c:when>
+							</c:choose>
+							<a href="${pageContext.request.contextPath }/board?a=view&no=${board.no }">${board.title}</a>
 							</td>
 							<td>${board.author }</td>
 							<td>${board.views }</td>
@@ -46,7 +51,6 @@
 							<td><a href="${pageContext.request.contextPath}/board?a=delete&no=${board.no }" class="del" type="submit">삭제</a></td>
 							</c:if>
 						</tr>
-
 					</c:forEach>
 				</table>
 				</form>
@@ -66,8 +70,10 @@
 
 
 				<div class="bottom">
+					<c:if test="${ !empty authUser }">
 					<a href="${pageContext.request.contextPath}/board?a=writeform" id="new-book">글쓰기</a>
-					<a href="${pageContext.request.contextPath}/board?a=modify" id="new-book">글수정</a>
+					<!-- <a href="${pageContext.request.contextPath}/board?a=modify" id="new-book">글수정</a> 글은 해당 글에 들어가서 수정해야함 -->
+					</c:if>
 				</div>
 			</div>
 		</div>

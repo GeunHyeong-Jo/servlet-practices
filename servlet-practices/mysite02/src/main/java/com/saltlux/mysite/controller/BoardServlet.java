@@ -29,10 +29,11 @@ public class BoardServlet extends HttpServlet {
 		if ("writeform".equals(action)) {
 			WebUtil.forward("/WEB-INF/views/board/write.jsp", request, response);
 		} else if ("write".equals(action)) {
+			
 			BoardDao boardDao= new BoardDao();
 			UserVo authUser = (UserVo) session.getAttribute("authUser");
 			
-			Long g_no= boardDao.getGno();
+			Long g_no= boardDao.getMaxGno()+1; //자동으로 Group No를 증가한다
 			//여기에 파라미터로 받아와서 넣어준다
 			
 			String title = request.getParameter("title");
@@ -56,10 +57,42 @@ public class BoardServlet extends HttpServlet {
 			// board의 정보를 모두 넘겨주게 된다
 
 			WebUtil.redirect(request.getContextPath()+"/board", request, response);
-		} else if ("modify".equals(action)) {
+		} else if ("modifyform".equals(action)) {
+			
+			UserVo authUser = (UserVo) session.getAttribute("authUser"); // 세션의 no
 
+			
+			String boardNo=request.getParameter("no");//수정할 글의 번호
+			
+			System.out.println("수정할 글의 번호 : "+ boardNo);
+			
+			//TODO 여기가 null값이여 오류가 발생 ->parameter로 변경!!!!!!
+			//authorNo; 해당글의 작성자
+			BoardVo vo=new BoardDao().findByNo(Long.parseLong(boardNo));
+			
+			
+			if(!authUser.getNo().equals(vo.getUser_no())	) { //글의 작성자와 세션의 유저와 비교
+				System.out.println("인증안된 접근");
+				WebUtil.redirect(request.getContextPath()+"/board", request, response);
+				return;
+			}
+			request.setAttribute("board", vo); // vo를 넘겨줌
+		
 			WebUtil.forward("/WEB-INF/views/board/modify.jsp", request, response);
-
+		} else if ("modify".equals(action)) {
+			
+			Long no = Long.parseLong(request.getParameter("no"));
+			String title = request.getParameter("title");
+			String content= request.getParameter("content");
+			
+			BoardVo vo=new BoardVo();
+			vo.setNo(no);
+			vo.setTitle(title);
+			vo.setContent(content);
+			System.out.println(vo);
+			new BoardDao().update(vo);
+			
+			WebUtil.redirect(request.getContextPath()+"/board", request, response);
 		} else if ("delete".equals(action)) {
 			UserVo authUser = (UserVo) session.getAttribute("authUser");
 			
@@ -82,7 +115,7 @@ public class BoardServlet extends HttpServlet {
 		} else if ("view".equals(action)) {
 			Long no = Long.parseLong(request.getParameter("no"));
 			BoardVo vo = new BoardDao().findByNo(no);
-
+			new BoardDao().updateView(no);
 			request.setAttribute("board", vo);
 
 			WebUtil.forward("/WEB-INF/views/board/view.jsp", request, response);
