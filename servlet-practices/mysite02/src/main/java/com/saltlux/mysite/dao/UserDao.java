@@ -117,7 +117,7 @@ public class UserDao {
 
 	}
 
-	public String getEmailFindByNo(Long no) {  // 세션의 no를 받아 email을 반환
+	public String getEmailFindByNo(Long no) { // 세션의 no를 받아 email을 반환
 		String email = null;
 
 		Connection conn = null;
@@ -136,7 +136,7 @@ public class UserDao {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				email= rs.getString(1);
+				email = rs.getString(1);
 			}
 		} catch (SQLException e) {
 			System.out.println("error : " + e);
@@ -156,5 +156,84 @@ public class UserDao {
 			}
 		}
 		return email;
+	}
+
+	@SuppressWarnings("null")
+	public UserVo findByNo(Long no) { /// user의 update를 위해 만들었으니 필요 없어짐
+		UserVo vo = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			vo.setNo(no);
+			conn = getConnection();
+
+			String sql = "SELECT email FROM user WHERE no=?";
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, no);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+			}
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return vo;
+	}
+
+	public boolean update(UserVo userVo) {
+		boolean result= false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+
+			String sql = "UPDATE user SET name = ?, password=? , gender=? WHERE no=?";
+
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userVo.getName());
+			pstmt.setString(2, userVo.getPassword());
+			pstmt.setString(3, userVo.getGender());
+			pstmt.setLong(4, userVo.getNo());
+			int count = pstmt.executeUpdate();
+
+			result = count==1;
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 }

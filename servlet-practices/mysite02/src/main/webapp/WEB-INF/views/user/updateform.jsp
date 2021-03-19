@@ -18,14 +18,15 @@
 		<div id="content">
 			<div id="user">
 
-				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user">
+				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user?a=update">
 					<input type='hidden' name="a" value="update" />
 					<label class="block-label" for="email">이메일</label>
-					<h4>${userVo.email}</h4>
+					<h4>${myEmail}</h4>
+					<input type="hidden" name="no" value="${userNo }"/>
 					
 					<!-- Name -->
 					<label class="block-label" for="name">이름</label>
-					<input id="name" name="name" type="text" value="${userVo.name }">
+					<input id="name" name="name" type="text" value="">
 					<!-- Password -->
 					<label class="block-label">패스워드</label>
 					<input name="password" type="password" value="">

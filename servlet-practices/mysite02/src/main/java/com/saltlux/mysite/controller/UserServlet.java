@@ -39,11 +39,12 @@ public class UserServlet extends HttpServlet {
 			}
 
 			Long no = authUser.getNo();
-			
-			//TODO 여기에 회원정보를 업데이트하는 구문 추가
-			//UserVo userVo = (UserVo)new UserDao().findByNo(no);
-			
-			//request.setAttribute("userVo", userVo);  //jsp랑 연동해야함
+			String email = new UserDao().getEmailFindByNo(no);
+			request.setAttribute("myEmail", email);
+			request.setAttribute("userNo", no);
+			// TODO 여기에 회원정보를 업데이트하는 구문 추가 //회원의 NO는 성공적으로 넘어왔다
+			// UserVo userVo = (UserVo)new UserDao().findByNo(no);
+			// request.setAttribute("userVo", userVo); //jsp랑 연동해야함
 			WebUtil.forward("/WEB-INF/views/user/updateform.jsp", request, response);
 
 		} else if ("logout".equals(action)) {
@@ -57,6 +58,28 @@ public class UserServlet extends HttpServlet {
 
 			WebUtil.redirect(request.getContextPath(), request, response);
 
+		} else if ("update".equals(action)) {
+			String no = request.getParameter("no");
+			String name = request.getParameter("name");
+			String password = request.getParameter("password");
+			String gender = request.getParameter("gender");
+
+			UserVo userVo = new UserVo();
+			userVo.setNo(Long.parseLong(no));
+			userVo.setName(name);
+			userVo.setPassword(password);
+			userVo.setGender(gender);
+
+			new UserDao().update(userVo);
+			//boolean result = new UserDao().update(userVo);
+			// System.out.println("회원정보 수정결과 : "+ result);
+			//// 정보 수정 후 세션의 초기화로 로그아웃
+			HttpSession session = request.getSession();
+
+			session.removeAttribute("authUser");
+			session.invalidate();
+
+			WebUtil.redirect(request.getContextPath(), request, response);
 		} else if ("login".equals(action)) {
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");

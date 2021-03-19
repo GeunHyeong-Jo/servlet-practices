@@ -111,7 +111,6 @@ public class BoardServlet extends HttpServlet {
 
 			WebUtil.redirect(request.getContextPath()+"/board", request, response);
 			
-			
 		} else if ("view".equals(action)) {
 			Long no = Long.parseLong(request.getParameter("no"));
 			BoardVo vo = new BoardDao().findByNo(no);
