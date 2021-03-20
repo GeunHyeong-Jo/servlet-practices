@@ -12,6 +12,47 @@ import com.saltlux.mysite.vo.BoardVo;
 
 public class BoardDao {
 
+	//TODO g_no를 받아와서 해당 그룹의 글의 o_no를 1늘려가며 답글을 생성
+	//TODO 답글의 생성 후 해당 그룹, 정렬번호 다음부터 새로 정렬해서 데이터의 최신화가 필요하다
+	
+	//TODO 페이징 처리 하면 종료!!!
+	
+	public int updateOrder(Long g_no, Long o_no) { //원글의 g_no, o_no를 입력받는다
+		int count=0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		// JDBC코드
+				try {
+					conn = getConnection();
+					// 3. SQL 준비
+					String sql = "update board SET o_no=o_no+1 WHERE g_no = ? AND o_no >= ?";
+					pstmt = conn.prepareStatement(sql);
+					// 4. 바인딩
+					pstmt.setLong(1, g_no);
+					pstmt.setLong(2, o_no);
+					
+					// 5. SQL문 실행
+					count= pstmt.executeUpdate();
+					
+		
+				} catch (SQLException e) {
+					System.out.println("error: " + e);
+				} finally {// 자원 정리
+					try {
+						if (pstmt != null) {
+							pstmt.close();
+						}
+						if (conn != null) {
+							conn.close();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+		return count;
+	}
+	
 	public boolean updateView(Long title_no){ //조회수를 증가
 		Connection conn = null;
 		PreparedStatement pstmt = null;

@@ -20,7 +20,6 @@ public class BoardServlet extends HttpServlet {
 
 	// TODO 나중에 코드 줄일때 여기에 리스트 얻어서 넘기는 코드 옮기기
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("a");
@@ -28,89 +27,111 @@ public class BoardServlet extends HttpServlet {
 
 		if ("writeform".equals(action)) {
 			WebUtil.forward("/WEB-INF/views/board/write.jsp", request, response);
-		} else if ("write".equals(action)) {
+
+		} else if ("reply".equals(action)) { // 원글보다 높은 orderNo를 1씩 추가하고 그자리에 답글을 집어 넣어 준다
+			String boardNo = request.getParameter("boardNo");
+			// view에서 hidden으로 받아 오기
 			
-			BoardDao boardDao= new BoardDao();
+			request.setAttribute("boardNo", boardNo); // write.jsp로 넘겨준다
+			
+			WebUtil.forward("/WEB-INF/views/board/write.jsp", request, response);
+			//WebUtil.redirect(request.getContextPath() + "/board?a=write&no=" + boardNo, request, response);
+		} else if ("write".equals(action)) {
+			String referer = request.getHeader("Referer");
+			System.out.println("이전의 경로 : " + referer);
+			Long g_no = 0L;
+			Long o_no = 1L;
+			Long depth = 0L;// 여기까지 신규등록일 경우를 대비한 초기화 상태
+
+			BoardDao boardDao = new BoardDao();
 			UserVo authUser = (UserVo) session.getAttribute("authUser");
 			
-			Long g_no= boardDao.getMaxGno()+1; //자동으로 Group No를 증가한다
-			//여기에 파라미터로 받아와서 넣어준다
-			
+			// writeform이 문자열의 마지막이면 신규 등록
+			if (referer.substring(referer.length() - 9, referer.length()).equals("writeform")) {// 신규등록
+				g_no = boardDao.getMaxGno() + 1; // 자동으로 Group No를 증가한다
+
+			} else { // 답글작성
+				BoardVo vo = new BoardVo();
+				Long boardNo = Long.parseLong(request.getParameter("reply"));// 답을 달 원글
+				vo = boardDao.findByNo(boardNo);// 답을 달 글의 정보 요청
+
+				//원글의 정보
+				g_no= vo.getG_no();
+				o_no = vo.getO_no()+1L;
+				depth = vo.getDepth()+1L;
+				
+				boardDao.updateOrder(g_no, o_no); // 추가하기 전에 원글의 뒷부분에 orderno를 늘려준다
+			}
+
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-			
+
 			BoardVo vo = new BoardVo();
-			
+
 			vo.setTitle(title);
 			vo.setAuthor(authUser.getName());
 			vo.setContent(content);
 			vo.setG_no(g_no);
-			vo.setO_no(1L);
-			vo.setDepth(0L);
+			vo.setO_no(o_no);
+			vo.setDepth(depth);
 			vo.setUser_no(authUser.getNo());
-			
+
 			boardDao.insert(vo);
-			
+
 			List<BoardVo> list = new ArrayList<>();
 			list = new BoardDao().findAll();
 			request.setAttribute("list", list);
 			// board의 정보를 모두 넘겨주게 된다
 
-			WebUtil.redirect(request.getContextPath()+"/board", request, response);
-		} else if ("modifyform".equals(action)) {
-			
-			UserVo authUser = (UserVo) session.getAttribute("authUser"); // 세션의 no
+			WebUtil.redirect(request.getContextPath() + "/board", request, response);
+		} else if ("modifyform".equals(action))
 
-			
-			String boardNo=request.getParameter("no");//수정할 글의 번호
-			
-			System.out.println("수정할 글의 번호 : "+ boardNo);
-			
-			//TODO 여기가 null값이여 오류가 발생 ->parameter로 변경!!!!!!
-			//authorNo; 해당글의 작성자
-			BoardVo vo=new BoardDao().findByNo(Long.parseLong(boardNo));
-			
-			
-			if(!authUser.getNo().equals(vo.getUser_no())	) { //글의 작성자와 세션의 유저와 비교
+		{
+
+			UserVo authUser = (UserVo) session.getAttribute("authUser"); // 세션의 no
+			String boardNo = request.getParameter("no");// 수정할 글의 번호
+			System.out.println("수정할 글의 번호 : " + boardNo);
+			BoardVo vo = new BoardDao().findByNo(Long.parseLong(boardNo));
+
+			if (!authUser.getNo().equals(vo.getUser_no())) { // 글의 작성자와 세션의 유저와 비교
 				System.out.println("인증안된 접근");
-				WebUtil.redirect(request.getContextPath()+"/board", request, response);
+				WebUtil.redirect(request.getContextPath() + "/board", request, response);
 				return;
 			}
 			request.setAttribute("board", vo); // vo를 넘겨줌
-		
+
 			WebUtil.forward("/WEB-INF/views/board/modify.jsp", request, response);
 		} else if ("modify".equals(action)) {
-			
+
 			Long no = Long.parseLong(request.getParameter("no"));
 			String title = request.getParameter("title");
-			String content= request.getParameter("content");
-			
-			BoardVo vo=new BoardVo();
+			String content = request.getParameter("content");
+
+			BoardVo vo = new BoardVo();
 			vo.setNo(no);
 			vo.setTitle(title);
 			vo.setContent(content);
-			System.out.println(vo);
+			//System.out.println(vo);  //디버그용 
 			new BoardDao().update(vo);
-			
-			WebUtil.redirect(request.getContextPath()+"/board", request, response);
+
+			WebUtil.redirect(request.getContextPath() + "/board", request, response);
 		} else if ("delete".equals(action)) {
 			UserVo authUser = (UserVo) session.getAttribute("authUser");
-			
-			Long delNo= Long.parseLong(request.getParameter("no"));
-			BoardDao boardDao= new BoardDao();
-			BoardVo vo= new BoardVo();
+
+			Long delNo = Long.parseLong(request.getParameter("no"));
+			BoardDao boardDao = new BoardDao();
+			BoardVo vo = new BoardVo();
 			vo.setNo(delNo);
 			vo.setUser_no(authUser.getNo());
-			
+
 			boardDao.delete(vo);
-			
-			
+
 			List<BoardVo> list = new ArrayList<>();
 			list = boardDao.findAll();
 			request.setAttribute("list", list);
 
-			WebUtil.redirect(request.getContextPath()+"/board", request, response);
-			
+			WebUtil.redirect(request.getContextPath() + "/board", request, response);
+
 		} else if ("view".equals(action)) {
 			Long no = Long.parseLong(request.getParameter("no"));
 			BoardVo vo = new BoardDao().findByNo(no);

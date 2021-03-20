@@ -41,10 +41,9 @@
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
 					<c:if test="${authUser.no eq board.user_no }">
 						<a href="${pageContext.request.contextPath }/board?a=modifyform&no=${board.no}">글수정</a>
-						
 					</c:if>
 					<c:if test="${!empty authUser }">
-						<a href="${pageContext.request.contextPath }">답글</a><!-- 자신의 글이 아닐경우 글수정 없애고 답글 활성화 -->
+						<a href="${pageContext.request.contextPath }/board?a=reply&boardNo=${board.no}">답글</a><!-- 자신의 글이 아닐경우 글수정 없애고 답글 활성화 -->
 					</c:if>
 				</div>
 			</div>
