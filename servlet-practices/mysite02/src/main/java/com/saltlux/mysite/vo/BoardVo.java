@@ -1,6 +1,6 @@
 package com.saltlux.mysite.vo;
 
-public class BoardVo {
+public class BoardVo { 
 	private Long no;
 	private String title;
 	private String author;

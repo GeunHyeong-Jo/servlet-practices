@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.saltlux.mysite.dao.BoardDao;
 import com.saltlux.mysite.vo.BoardVo;
+import com.saltlux.mysite.vo.PagerVo;
 import com.saltlux.mysite.vo.UserVo;
 import com.saltlux.web.mvc.WebUtil;
 
@@ -78,9 +79,9 @@ public class BoardServlet extends HttpServlet {
 
 			boardDao.insert(vo);
 
-			List<BoardVo> list = new ArrayList<>();
-			list = new BoardDao().findAll();
-			request.setAttribute("list", list);
+//			List<BoardVo> list = new ArrayList<>();
+//			list = new BoardDao().findAll();
+//			request.setAttribute("list", list);
 			// board의 정보를 모두 넘겨주게 된다
 
 			WebUtil.redirect(request.getContextPath() + "/board", request, response);
@@ -125,11 +126,7 @@ public class BoardServlet extends HttpServlet {
 			vo.setUser_no(authUser.getNo());
 
 			boardDao.delete(vo);
-
 			List<BoardVo> list = new ArrayList<>();
-			list = boardDao.findAll();
-			request.setAttribute("list", list);
-
 			WebUtil.redirect(request.getContextPath() + "/board", request, response);
 
 		} else if ("view".equals(action)) {
@@ -141,11 +138,33 @@ public class BoardServlet extends HttpServlet {
 			WebUtil.forward("/WEB-INF/views/board/view.jsp", request, response);
 		} else {
 
-			List<BoardVo> list = new ArrayList<>();
-			list = new BoardDao().findAll();
+			int totalCount=0;
+		
+			BoardDao boardDao= new BoardDao();
+			int nowPage=1;
+			List<BoardVo> list =null;
+			if(request.getParameter("p") != null) {
+				nowPage = Integer.parseInt(request.getParameter("p"));	
+			}
+			
+			totalCount = boardDao.getCount();
+			PagerVo pagerVo= new PagerVo(totalCount,5,nowPage);
+			list = boardDao.findAll(pagerVo);
+			
+			
+			
+			
+			
+			
+			
 			request.setAttribute("list", list);
-			// board의 정보를 모두 넘겨주게 된다
-
+			request.setAttribute("pagerVo", pagerVo);
+			
+			
+			
+			
+			
+			
 			if (session == null) {
 				WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
 				return;

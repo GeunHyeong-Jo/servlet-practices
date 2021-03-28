@@ -58,6 +58,13 @@ input#kwd	{
 	border-bottom:1px dotted #333; 
 }
 
+.tbl-ex tr:nth-child(even) {
+	background-color:#ED4264; 
+}
+
+.tbl-ex tr:nth-child(odd) {
+	background-color:#FFEDBC; 
+}
 
 .board-form .tbl-ex td {
 	text-align:left
