@@ -18,7 +18,7 @@ import com.saltlux.web.mvc.WebUtil;
 
 public class BoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+ 
 	// TODO 나중에 코드 줄일때 여기에 리스트 얻어서 넘기는 코드 옮기기
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
