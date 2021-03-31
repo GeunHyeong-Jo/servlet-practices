@@ -25,7 +25,13 @@
 			<artifactId>jsp-api</artifactId>
 			<version>2.0</version>
 			<scope>provided</scope>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -49,5 +55,8 @@
 		<module>guestbook02</module>
 		<module>mysite02</module>
 		<module>jstlel</module>
+		<module>test</module>
+		<module>getAPI</module>
+		<module>mysite02_two_mysql</module>
 	</modules>
 </project>
