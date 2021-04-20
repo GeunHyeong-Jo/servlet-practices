@@ -58,5 +58,7 @@
 		<module>test</module>
 		<module>getAPI</module>
 		<module>mysite02_two_mysql</module>
+		<module>mysite02_mongo</module>
+		<module>jsp_upload</module>
 	</modules>
 </project>
